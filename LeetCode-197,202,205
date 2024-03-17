@@ -1,0 +1,57 @@
+/*
+197.上升的温度
+编写解决方案，找出与之前（昨天的）日期相比温度更高的所有日期的 id 。
+返回结果 无顺序要求 。
+*/
+select a.id from Weather as a, Weather as b
+where datediff(a.recordDate, b.recordDate) = 1 and a.Temperature > b.Temperature;
+
+class Solution {
+/*
+202.快乐数
+编写一个算法来判断一个数 n 是不是快乐数。
+「快乐数」 定义为：
+对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和。
+然后重复这个过程直到这个数变为 1，也可能是 无限循环 但始终变不到 1。
+如果这个过程 结果为 1，那么这个数就是快乐数。
+如果 n 是 快乐数 就返回 true ；不是，则返回 false 。
+*/
+ public boolean isHappy(int n) {
+  int fast = next(n);
+  int slow = n;
+  while(fast != 1 && slow != fast) {
+    fast = next(next(fast));
+    slow = next(slow);
+  }
+  return fast == 1;
+ }
+ public int next(int n) {
+  int ret = 0;
+  while(n != 0) {
+    int count = n % 10;
+    ret += count * count;
+    n /= 10;
+  }
+  return ret;
+ }
+/*
+205.同构字符串
+给定两个字符串 s 和 t ，判断它们是否是同构的。
+如果 s 中的字符可以按某种映射关系替换得到 t ，那么这两个字符串是同构的。
+每个出现的字符都应当映射到另一个字符，同时不改变字符的顺序。不同字符不能映射到同一个字符上，相同字符只能映射到同一个字符上，字符可以映射到自己本身。
+*/
+  public boolean isIsomorphic(String s, String t) {
+    Map<Character, Character> smt = new HashMap<>();
+    Map<Character, Character> tms = new HashMap<>();
+    for(int i = 0; i < s.length(); i++) {
+      char a = s.charAt(i);
+      char b = t.charAt(i);
+      if(smt.containsKey(a) && smt.get(a) != b || tms.containsKey(b) && tms.get(b) != a) {
+        reutrn false;
+      }
+      smt.put(a, b);
+      tms.put(b, a);
+    }
+    return true;
+  }
+}
